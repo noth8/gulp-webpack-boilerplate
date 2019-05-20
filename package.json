@@ -1,0 +1,26 @@
+{
+  "name": "gulp-webpack-boilerplate",
+  "version": "0.0.1",
+  "description": "Automation process for fast web development.",
+  "keywords": [
+    "html",
+    "pug",
+    "css",
+    "sass",
+    "stylus",
+    "bootstrap",
+    "javascript",
+    "babel",
+    "es6",
+    "jquery",
+    "gulp",
+    "webpack"
+  ],
+  "homepage": "https://devmeed.com//",
+  "license": "MIT",
+  "author": "noth8",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/noth8/gulp-webpack-boilerplate.git"
+  },
+}
