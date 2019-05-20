@@ -1,0 +1,7 @@
+.vscode/
+.directory
+node_modules
+dist
+tmp
+yarn.lock
+*.log
