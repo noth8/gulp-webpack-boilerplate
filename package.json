@@ -39,5 +39,7 @@
     "gulp-debug": "^4.0.0",
     "gulp-plumber": "^1.2.1",
     "node-notifier": "^5.4.0",
+    "through2": "^3.0.1",
+    "gulp-pug": "^4.0.1",
   }
 }
