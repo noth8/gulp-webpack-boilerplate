@@ -36,5 +36,8 @@
     "eslint-plugin-import": "^2.17.2",
     "del": "^4.1.1",
     "gulp": "^4.0.1",
+    "gulp-debug": "^4.0.0",
+    "gulp-plumber": "^1.2.1",
+    "node-notifier": "^5.4.0",
   }
 }
