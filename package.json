@@ -41,5 +41,10 @@
     "node-notifier": "^5.4.0",
     "through2": "^3.0.1",
     "gulp-pug": "^4.0.1",
+    "gulp-load-plugins": "^1.5.0",
+    "gulp-google-webfonts": "^2.1.0",
+    "gulp-newer": "^1.4.0",
+    "gulp-cached": "^1.1.1",
+    
   }
 }
