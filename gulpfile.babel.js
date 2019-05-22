@@ -12,6 +12,14 @@ import cached from "gulp-cached";
 import gulpIf from "gulp-if";
 import sass from "gulp-sass";
 import stylus from "gulp-stylus";
+import merge from "merge2";
+import autoprefixer from "gulp-autoprefixer";
+import sourcemaps from "gulp-sourcemaps";
+import remember from "gulp-remember";
+import concat from "gulp-concat";
+import { obj as combine } from "stream-combiner2";
+import cleanCSS from "gulp-clean-css";
+import rev from "gulp-rev";
 
 const plugins = gulpLoadPlugins({
   rename: {
@@ -23,6 +31,7 @@ const paths = {
   build: {
     root: "./dist/",
     fontsDir: "./dist/fonts/",
+    cssDir: "./dist/css/",
   },
   src: {
     pug: "./src/templates/pages/*.pug",
@@ -58,6 +67,7 @@ const paths = {
 const GOOGLE_FONTS_ENABLED = true;
 const BOOTSTRAP_ENABLED = true;
 const BOOTSTRAP_CUSTOM_SOURCE = true;
+const AUTOPREFIXER_BROWSER_LIST = "last 2 versions";
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === "development";
 
@@ -178,11 +188,43 @@ const convertStylusFilesToCss = () => gulp
   .pipe(cached("styles"))
   .pipe(stylus());
 
+function mergeStyles() {
+  const merged = merge();
+
+  if (GOOGLE_FONTS_ENABLED) merged.add(getGoogleFontsCss());
+  if (BOOTSTRAP_ENABLED) merged.add(convertBootstrapScssToCss());
+  merged.add(convertStylusFilesToCss());
+
+  return merged
+    .pipe(errorHandler("MergeStyles"))
+    .pipe(printFileName("MergeStyles"))
+    .pipe(
+      gulpIf(
+        isProduction,
+        autoprefixer({
+          browsers: AUTOPREFIXER_BROWSER_LIST,
+        }),
+        sourcemaps.init(),
+      ),
+    )
+    .pipe(remember("styles"))
+    .pipe(concat("all.css"))
+    .pipe(
+      gulpIf(
+        isProduction,
+        combine(cleanCSS({ compatibility: "ie8" }), rev()),
+        sourcemaps.write(),
+      ),
+    )
+    .pipe(gulp.dest(paths.build.cssDir));
+}
+
 const build = gulp.series(
   cleanBuildDir,
   convertPugToHtml,
   copyGoogleFonts,
   copyBootstrapSource,
+  mergeStyles,
 );
 
 export { build };

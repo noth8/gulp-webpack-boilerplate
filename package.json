@@ -51,5 +51,13 @@
     "bootstrap": "^4.3.1",
     "gulp-stylus": "^2.7.0",
     "stylus": "^0.54.5",
+    "merge2": "^1.2.3",
+    "gulp-autoprefixer": "^6.1.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-remember": "^1.0.1",
+    "gulp-concat": "^2.6.1",
+    "stream-combiner2": "^1.1.1",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-rev": "^9.0.0",
   }
 }
