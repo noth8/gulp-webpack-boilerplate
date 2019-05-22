@@ -20,6 +20,7 @@ import concat from "gulp-concat";
 import { obj as combine } from "stream-combiner2";
 import cleanCSS from "gulp-clean-css";
 import rev from "gulp-rev";
+import inject from "gulp-inject";
 
 const plugins = gulpLoadPlugins({
   rename: {
@@ -32,6 +33,9 @@ const paths = {
     root: "./dist/",
     fontsDir: "./dist/fonts/",
     cssDir: "./dist/css/",
+    html: "./dist/*.html",
+    cssProd: "./dist/css/*.css",
+    cssDev: "./dist/css/all.css",
   },
   src: {
     pug: "./src/templates/pages/*.pug",
@@ -219,12 +223,28 @@ function mergeStyles() {
     .pipe(gulp.dest(paths.build.cssDir));
 }
 
+function injectStylesToHtml() {
+  const target = gulp.src(paths.build.html);
+  const source = gulp.src(
+    gulpIf(isProduction, paths.build.cssProd, paths.build.cssDev),
+    {
+      read: false,
+    },
+  );
+
+  return target
+    .pipe(errorHandler("InjectStylesToHtml"))
+    .pipe(inject(source, { relative: true, removeTags: true, quiet: true }))
+    .pipe(gulp.dest(paths.build.root));
+}
+
 const build = gulp.series(
   cleanBuildDir,
   convertPugToHtml,
   copyGoogleFonts,
   copyBootstrapSource,
   mergeStyles,
+  injectStylesToHtml,
 );
 
 export { build };
