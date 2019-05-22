@@ -9,6 +9,8 @@ import pug from "gulp-pug";
 import gulpLoadPlugins from "gulp-load-plugins";
 import newer from "gulp-newer";
 import cached from "gulp-cached";
+import gulpIf from "gulp-if";
+import sass from "gulp-sass";
 
 const plugins = gulpLoadPlugins({
   rename: {
@@ -23,6 +25,7 @@ const paths = {
   },
   src: {
     pug: "./src/templates/pages/*.pug",
+    vendorDir: "./src/vendor/",
   },
   googleFonts: {
     list: "./src/fonts/fonts.list",
@@ -31,9 +34,28 @@ const paths = {
     cssDir: "./src/vendor/googleFonts/styles/",
     css: "./src/vendor/googleFonts/styles/fonts.css",
   },
+  bootstrap: {
+    src: {
+      scssDir: "./node_modules/bootstrap/scss/",
+      scss: "node_modules/bootstrap/scss/**/*.*",
+      jsDir: "./node_modules/bootstrap/js/src/",
+      js: "node_modules/bootstrap/js/src/**/*.*",
+    },
+    customSrc: {
+      root: "./src/vendor/bootstrap/",
+      scssDir: "./src/vendor/bootstrap/scss/",
+      jsDir: "./src/vendor/bootstrap/js/src/",
+    },
+    scssEntryFile: "./src/styles/bootstrap/bootstrap.scss",
+  },
+  nodeModules: {
+    root: "./node_modules/",
+  },
 };
 
-const GOOGLE_FONTS_ENABLED = false;
+const GOOGLE_FONTS_ENABLED = true;
+const BOOTSTRAP_ENABLED = true;
+const BOOTSTRAP_CUSTOM_SOURCE = true;
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === "development";
 
@@ -122,10 +144,38 @@ function copyGoogleFonts(finishTask) {
 
 const getGoogleFontsCss = () => gulp.src(paths.googleFonts.css).pipe(cached("styles"));
 
+function copyBootstrapSource(finishTask) {
+  if (BOOTSTRAP_ENABLED && BOOTSTRAP_CUSTOM_SOURCE) {
+    checkDirExist(paths.bootstrap.customSrc.root, noDir => {
+      if (noDir) {
+        gulp
+          .src([paths.bootstrap.src.scss, paths.bootstrap.src.js], {
+            base: paths.nodeModules.root,
+          })
+          .pipe(errorHandler("CopyBootstrapSource"))
+          .pipe(printFileName("CopyBootstrapSource"))
+          .pipe(gulp.dest(paths.src.vendorDir))
+          .on("end", finishTask);
+      } else finishTask();
+    });
+  } else finishTask();
+}
+
+const convertBootstrapScssToCss = () => gulp
+  .src(paths.bootstrap.scssEntryFile)
+  .pipe(
+    gulpIf(
+      BOOTSTRAP_CUSTOM_SOURCE,
+      sass({ includePaths: paths.bootstrap.customSrc.scssDir }),
+      sass({ includePaths: paths.bootstrap.src.scssDir }),
+    ),
+  );
+
 const build = gulp.series(
   cleanBuildDir,
   convertPugToHtml,
   copyGoogleFonts,
+  copyBootstrapSource,
 );
 
 export { build };
