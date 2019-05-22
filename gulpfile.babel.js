@@ -11,6 +11,7 @@ import newer from "gulp-newer";
 import cached from "gulp-cached";
 import gulpIf from "gulp-if";
 import sass from "gulp-sass";
+import stylus from "gulp-stylus";
 
 const plugins = gulpLoadPlugins({
   rename: {
@@ -26,6 +27,7 @@ const paths = {
   src: {
     pug: "./src/templates/pages/*.pug",
     vendorDir: "./src/vendor/",
+    stylus: "./src/styles/*.styl",
   },
   googleFonts: {
     list: "./src/fonts/fonts.list",
@@ -170,6 +172,11 @@ const convertBootstrapScssToCss = () => gulp
       sass({ includePaths: paths.bootstrap.src.scssDir }),
     ),
   );
+
+const convertStylusFilesToCss = () => gulp
+  .src(paths.src.stylus)
+  .pipe(cached("styles"))
+  .pipe(stylus());
 
 const build = gulp.series(
   cleanBuildDir,
