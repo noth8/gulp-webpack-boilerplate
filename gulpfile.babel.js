@@ -40,6 +40,8 @@ const paths = {
     cssProd: "./dist/css/*.css",
     cssDev: "./dist/css/all.css",
     jsDir: "./dist/js/",
+    jsProd: "./dist/js/*.js",
+    jsDev: "./dist/js/bundle.js",
   },
   src: {
     pug: "./src/templates/pages/*.pug",
@@ -271,6 +273,17 @@ const webpackConfig = {
       jQuery: "jquery",
       "window.jQuery": "jquery",
     }),
+    {
+      apply: compiler => {
+        compiler.hooks.done.tapAsync(
+          "InvokeCallbackOnCompilationEnd",
+          (params, finishPluginExecution) => {
+            injectBundleToHtml();
+            finishPluginExecution();
+          },
+        );
+      },
+    },
   ],
   module: {
     rules: [
@@ -308,6 +321,21 @@ const webpackErrorCallback = gulpFinishTask => (err, stats) => {
 
 function buildJsBundle(gulpFinishTask) {
   webpack(webpackConfig, webpackErrorCallback(gulpFinishTask));
+}
+
+function injectBundleToHtml() {
+  const target = gulp.src(paths.build.html);
+  const source = gulp.src(
+    gulpIf(isProduction, paths.build.jsProd, paths.build.jsDev),
+    {
+      read: false,
+    },
+  );
+
+  return target
+    .pipe(errorHandler("InjectBundleToHtml"))
+    .pipe(inject(source, { relative: true, removeTags: true, quiet: true }))
+    .pipe(gulp.dest(paths.build.root));
 }
 
 const build = gulp.series(
