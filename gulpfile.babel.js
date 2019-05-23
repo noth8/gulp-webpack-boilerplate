@@ -21,6 +21,9 @@ import { obj as combine } from "stream-combiner2";
 import cleanCSS from "gulp-clean-css";
 import rev from "gulp-rev";
 import inject from "gulp-inject";
+import path from "path";
+import webpack from "webpack";
+import gulplog from "gulplog";
 
 const plugins = gulpLoadPlugins({
   rename: {
@@ -36,11 +39,14 @@ const paths = {
     html: "./dist/*.html",
     cssProd: "./dist/css/*.css",
     cssDev: "./dist/css/all.css",
+    jsDir: "./dist/js/",
   },
   src: {
     pug: "./src/templates/pages/*.pug",
     vendorDir: "./src/vendor/",
     stylus: "./src/styles/*.styl",
+    webpackEntry: "./src/js/entry.js",
+    jsDir: "./src/js/",
   },
   googleFonts: {
     list: "./src/fonts/fonts.list",
@@ -238,6 +244,72 @@ function injectStylesToHtml() {
     .pipe(gulp.dest(paths.build.root));
 }
 
+const webpackConfig = {
+  entry: {
+    app: paths.src.webpackEntry,
+  },
+  output: {
+    path: path.resolve(__dirname, paths.build.jsDir),
+    filename: isProduction ? "[hash].bundle.js" : "bundle.js",
+  },
+  mode: isDevelopment ? "development" : "production",
+  devtool: isDevelopment ? "cheap-module-inline-source-map" : "none",
+  optimization: {
+    noEmitOnErrors: true,
+  },
+  watch: isDevelopment,
+  resolve: {
+    alias: {
+      "@bootstrap": BOOTSTRAP_CUSTOM_SOURCE
+        ? path.resolve(__dirname, paths.bootstrap.customSrc.jsDir)
+        : path.resolve(__dirname, paths.bootstrap.src.jsDir),
+    },
+  },
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      jQuery: "jquery",
+      "window.jQuery": "jquery",
+    }),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        include: path.resolve(__dirname, paths.src.jsDir),
+        loader: "babel-loader",
+      },
+    ],
+  },
+};
+
+const webpackErrorCallback = gulpFinishTask => (err, stats) => {
+  let error = err;
+  if (!error) [error] = stats.toJson().errors;
+
+  if (error) {
+    notifier.notify({
+      title: "[Webpack] Error : ",
+      message: error,
+    });
+
+    gulplog.error(error);
+  } else {
+    gulplog.info(
+      stats.toString({
+        colors: true,
+      }),
+    );
+  }
+
+  if (!webpackConfig.watch && error) gulpFinishTask(error);
+  else gulpFinishTask();
+};
+
+function buildJsBundle(gulpFinishTask) {
+  webpack(webpackConfig, webpackErrorCallback(gulpFinishTask));
+}
+
 const build = gulp.series(
   cleanBuildDir,
   convertPugToHtml,
@@ -245,6 +317,7 @@ const build = gulp.series(
   copyBootstrapSource,
   mergeStyles,
   injectStylesToHtml,
+  buildJsBundle,
 );
 
 export { build };

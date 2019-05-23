@@ -60,5 +60,8 @@
     "gulp-clean-css": "^4.2.0",
     "gulp-rev": "^9.0.0",
     "gulp-inject": "^5.0.2",
+    "webpack": "^4.30.0",
+    "gulplog": "^1.0.0",
+    "babel-loader": "^8.0.5",
   }
 }
