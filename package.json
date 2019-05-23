@@ -63,5 +63,7 @@
     "webpack": "^4.30.0",
     "gulplog": "^1.0.0",
     "babel-loader": "^8.0.5",
+    "jquery": "^3.4.1",
+    "popper.js": "^1.15.0",
   }
 }
