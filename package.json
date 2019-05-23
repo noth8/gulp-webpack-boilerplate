@@ -65,5 +65,8 @@
     "babel-loader": "^8.0.5",
     "jquery": "^3.4.1",
     "popper.js": "^1.15.0",
+    "gulp-imagemin": "^5.0.3",
+    "imagemin-guetzli": "^2.0.0",
+    "imagemin-mozjpeg": "^8.0.0",
   }
 }

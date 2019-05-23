@@ -24,6 +24,9 @@ import inject from "gulp-inject";
 import path from "path";
 import webpack from "webpack";
 import gulplog from "gulplog";
+import imagemin from "gulp-imagemin";
+import guetzli from "imagemin-guetzli";
+import mozjpeg from "imagemin-mozjpeg";
 
 const plugins = gulpLoadPlugins({
   rename: {
@@ -42,6 +45,7 @@ const paths = {
     jsDir: "./dist/js/",
     jsProd: "./dist/js/*.js",
     jsDev: "./dist/js/bundle.js",
+    imgDir: "./dist/img/",
   },
   src: {
     pug: "./src/templates/pages/*.pug",
@@ -49,6 +53,7 @@ const paths = {
     stylus: "./src/styles/*.styl",
     webpackEntry: "./src/js/entry.js",
     jsDir: "./src/js/",
+    imgDir: "./src/img/*.*",
   },
   googleFonts: {
     list: "./src/fonts/fonts.list",
@@ -80,6 +85,8 @@ const GOOGLE_FONTS_ENABLED = true;
 const BOOTSTRAP_ENABLED = true;
 const BOOTSTRAP_CUSTOM_SOURCE = true;
 const AUTOPREFIXER_BROWSER_LIST = "last 2 versions";
+const IMAGE_ENCODER_GUETZLI = false;
+const IMAGE_COMPRESSION_RATE = 84;
 
 const isDevelopment = !process.env.NODE_ENV || process.env.NODE_ENV === "development";
 
@@ -338,6 +345,36 @@ function injectBundleToHtml() {
     .pipe(gulp.dest(paths.build.root));
 }
 
+function copyImages() {
+  return gulp
+    .src(paths.src.imgDir, { since: gulp.lastRun(copyImages) })
+    .pipe(errorHandler("CopyImages"))
+    .pipe(gulpIf(isDevelopment, newer(paths.build.imgDir)))
+    .pipe(
+      gulpIf(
+        isProduction && IMAGE_ENCODER_GUETZLI,
+        imagemin([
+          guetzli({
+            quality: IMAGE_COMPRESSION_RATE,
+          }),
+        ]),
+      ),
+    )
+    .pipe(
+      gulpIf(
+        isProduction && !IMAGE_ENCODER_GUETZLI,
+        imagemin([
+          mozjpeg({
+            quality: IMAGE_COMPRESSION_RATE,
+          }),
+        ]),
+      ),
+    )
+
+    .pipe(printFileName("CopyImages"))
+    .pipe(gulp.dest(paths.build.imgDir));
+}
+
 const build = gulp.series(
   cleanBuildDir,
   convertPugToHtml,
@@ -345,6 +382,7 @@ const build = gulp.series(
   copyBootstrapSource,
   mergeStyles,
   injectStylesToHtml,
+  copyImages,
   buildJsBundle,
 );
 
