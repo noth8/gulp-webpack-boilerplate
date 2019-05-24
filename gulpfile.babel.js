@@ -28,6 +28,9 @@ import imagemin from "gulp-imagemin";
 import guetzli from "imagemin-guetzli";
 import mozjpeg from "imagemin-mozjpeg";
 import revReplace from "gulp-rev-replace";
+import bs from "browser-sync";
+
+const browserSync = bs.create();
 
 const plugins = gulpLoadPlugins({
   rename: {
@@ -61,6 +64,7 @@ const paths = {
   watch: {
     pug: "./src/templates/**/*.pug",
     styles: "./src/styles/**/*.*",
+    browserSync: "./dist/**/*.*",
   },
   googleFonts: {
     list: "./src/fonts/fonts.list",
@@ -427,6 +431,18 @@ function watchForChanges(finishTask) {
       .on("unlink", filepath => {
         remember.forget("styles", path.resolve(filepath));
       });
+    browserSync.watch(paths.watch.browserSync).on("change", browserSync.reload);
+  } else finishTask();
+}
+
+function initBrowserSync(finishTask) {
+  if (isDevelopment) {
+    browserSync.init({
+      port: 8080,
+      server: {
+        baseDir: paths.build.root,
+      },
+    });
   } else finishTask();
 }
 
@@ -439,7 +455,7 @@ const build = gulp.series(
   injectStylesToHtml,
   copyImages,
   revReplaceImages,
-  gulp.parallel(watchForChanges, buildJsBundle),
+  gulp.parallel(watchForChanges, buildJsBundle, initBrowserSync),
 );
 
 export { build };
