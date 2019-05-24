@@ -58,6 +58,10 @@ const paths = {
     jsDir: "./src/js/",
     imgDir: "./src/img/*.*",
   },
+  watch: {
+    pug: "./src/templates/**/*.pug",
+    styles: "./src/styles/**/*.*",
+  },
   googleFonts: {
     list: "./src/fonts/fonts.list",
     fontsDir: "./src/vendor/googleFonts/fonts/",
@@ -405,6 +409,27 @@ function revReplaceImages(finishTask) {
   finishTask();
 }
 
+function watchForChanges(finishTask) {
+  if (isDevelopment) {
+    gulp.watch(
+      paths.watch.pug,
+      gulp.series(
+        convertPugToHtml,
+        injectStylesToHtml,
+        injectBundleToHtml,
+      ),
+    );
+    gulp
+      .watch(
+        paths.watch.styles,
+        mergeStyles,
+      )
+      .on("unlink", filepath => {
+        remember.forget("styles", path.resolve(filepath));
+      });
+  } else finishTask();
+}
+
 const build = gulp.series(
   cleanBuildDir,
   convertPugToHtml,
@@ -414,7 +439,7 @@ const build = gulp.series(
   injectStylesToHtml,
   copyImages,
   revReplaceImages,
-  buildJsBundle,
+  gulp.parallel(watchForChanges, buildJsBundle),
 );
 
 export { build };
