@@ -27,6 +27,7 @@ import gulplog from "gulplog";
 import imagemin from "gulp-imagemin";
 import guetzli from "imagemin-guetzli";
 import mozjpeg from "imagemin-mozjpeg";
+import revReplace from "gulp-rev-replace";
 
 const plugins = gulpLoadPlugins({
   rename: {
@@ -46,6 +47,8 @@ const paths = {
     jsProd: "./dist/js/*.js",
     jsDev: "./dist/js/bundle.js",
     imgDir: "./dist/img/",
+    manifestDir: "./tmp/manifest/",
+    manifest: "./tmp/manifest/rev-images.json",
   },
   src: {
     pug: "./src/templates/pages/*.pug",
@@ -370,9 +373,36 @@ function copyImages() {
         ]),
       ),
     )
-
+    .pipe(gulpIf(isProduction, rev()))
     .pipe(printFileName("CopyImages"))
-    .pipe(gulp.dest(paths.build.imgDir));
+    .pipe(gulp.dest(paths.build.imgDir))
+    .pipe(
+      gulpIf(
+        isProduction,
+        combine(
+          rev.manifest("rev-images.json"),
+          gulp.dest(paths.build.manifestDir),
+        ),
+      ),
+    );
+}
+
+function revReplaceImages(finishTask) {
+  if (isProduction) {
+    return merge(
+      gulp
+        .src(paths.build.cssProd)
+        .pipe(revReplace({ manifest: gulp.src(paths.build.manifest) }))
+        .pipe(gulp.dest(paths.build.cssDir))
+        .pipe(printFileName("RevReplaceImages")),
+      gulp
+        .src(paths.build.html)
+        .pipe(revReplace({ manifest: gulp.src(paths.build.manifest) }))
+        .pipe(gulp.dest(paths.build.root))
+        .pipe(printFileName("RevReplaceImages")),
+    ).on("end", finishTask);
+  }
+  finishTask();
 }
 
 const build = gulp.series(
@@ -383,6 +413,7 @@ const build = gulp.series(
   mergeStyles,
   injectStylesToHtml,
   copyImages,
+  revReplaceImages,
   buildJsBundle,
 );
 
