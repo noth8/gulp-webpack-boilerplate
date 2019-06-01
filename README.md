@@ -55,3 +55,53 @@ overhed to translate all static assets and styles through js using Webpack.
 | Code formatting | Prettier auto-formats js code that doesn't satisfy Eslint styles rules.                                                                                                              |
 | Cached files    | Gulp tasks configured to process only new files in development mode.                                                                                                                 |
 | Error notifier  | You get a desktop notification when errors occur.                                                                                                                                    |
+
+<br />
+<br />
+<br />
+
+## :department_store: Project Structure
+<br/>
+
+```
+├── dist/                          # Static version of the website
+│   ├── css/                       # Folder for concatenated css file
+│   ├── fonts/                     # All fonts files
+│   ├── img/                       # Images
+│   ├── js/                        # Folder for bundle js file
+│   └── index.html                 # Can be any page and more than one
+├── src/                           # Source files
+│   ├── fonts/                     # Fonts
+│   │   └── fonts.list             # Google Fonts config
+│   ├── img/                       # Site images
+│   ├── js/                        # Javascript files
+│   │   ├── bootstrap.js           # Uncomment module that you need
+│   │   ├── entry.js               # Webpack entry point
+│   │   └── main.js                # All user scripts
+│   ├── styles/                    # Styles
+│   │   ├── bootstrap/             # Bootstrap sass config
+│   │   │   ├── bootstrap.scss     # Uncomment module that you need
+│   │   │   └── _variables.scss    # Change what you want
+│   │   └── main.styl              # Main stylesheet file
+│   ├── templates/                 # Site templates (Pug)
+│   │   ├── pages/                 # Pug only looks for this dir
+│   │   │   └── index.pug          # You can create any amount of pages in this dir
+│   │   ├── navigation.pug         # Site navigation
+│   │   ├── header.pug             # Site header
+│   │   ├── footer.pug             # Site footer
+│   │   └── layout.pug             # Main layout
+│   └── vendor/                    # Appears if CUSTOM_SOURCE options specified or fonts enabled.
+│       ├── bootstrap/             # Change source files to whatever you want
+│       └── googleFonts/           # Storage for downloaded fonts
+├── temp/                          # Temporary folder
+│   └── manifest/                  # Manifests for the production build
+│       └── rev-images.json        # Hashed images names
+├── .babelrc                       # Babel presets for latest js features
+├── .eslintrc.js                   # ESLint config
+├── .gitignore                     # List of files ignored by git
+├── .prettierrc                    # Prettier formatter config
+├── gulpfile.babel.js              # Gulpfile config and tasks
+├── license                        # Project license
+├── package.json                   # Node.js dependencies and scripts
+└── readme.md                      # Description of the project
+```
