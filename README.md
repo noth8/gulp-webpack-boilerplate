@@ -105,3 +105,43 @@ overhed to translate all static assets and styles through js using Webpack.
 ├── package.json                   # Node.js dependencies and scripts
 └── readme.md                      # Description of the project
 ```
+
+<br />
+<br />
+<br />
+
+## :construction: Prerequisites
+<br/>
+
+#### You must have :
+- Node.js
+- Yarn or Npm
+- Gulp
+
+<br />
+
+#### or install : 
+
+1. Install Node Version Manager with these commands:
+   - ```sudo apt update```
+   - ```sudo apt install build-essential ; sudo apt install libssl-dev```
+   - ```curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash```
+   - ```source ~/.bashrc```
+<br/>
+
+2. Install latest Node.js :
+   - ```nvm install node```
+   - ```nvm use node```
+<br/>
+
+3. Install Yarn or Npm : 
+   - ```sudo apt install yarn```
+  or
+   - ```nvm install --latest-npm```
+<br/>
+
+4. Optionally, also install Gulp globally if you want to launch tasks without ```yarn run``` or ```npm start```: 
+    - ```yarn add global```
+    or
+    - ```npm install --global gulp``` 
+
