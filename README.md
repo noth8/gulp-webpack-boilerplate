@@ -25,6 +25,25 @@ overhed to translate all static assets and styles through js using Webpack.
 <br />
 <br />
 
+## :bookmark_tabs: Table of Contents
+<br/>
+
+1. [Demo](#link-demo-of-projects-using-this-boilerplate)
+2. [Features](#wrench-features)
+3. [Project structure](#department_store-project-structure)
+
+4. [Prerequisites](#construction-prerequisites)
+5. [Installation](#hammer-installation)
+6. [Launch](#red_circle-launch)
+7. [Tasks Options](#electric_plug-config-options-in-gulpfilebabeljs)
+8. [Packages list](#mag-packages-list)
+
+9. [Guetzli requirements](#memo-some-notes-about-guetzli)
+
+<br />
+<br />
+<br />
+
 ## :link: Demo of projects using this boilerplate 
 <br/>
 
