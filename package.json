@@ -33,8 +33,10 @@
     "@babel/register": "^7.4.4",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-import": "^2.17.2",
     "del": "^4.1.1",
+    "eslint-plugin-prettier": "^3.1.0",
     "gulp": "^4.0.1",
     "gulp-debug": "^4.0.0",
     "gulp-plumber": "^1.2.1",
@@ -71,5 +73,6 @@
     "gulp-rev-replace": "^0.4.4",
     "browser-sync": "^2.26.5",
     "babel-eslint": "^10.0.1", 
+    "prettier": "^1.17.1",
   }
 }
