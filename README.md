@@ -202,3 +202,189 @@ overhed to translate all static assets and styles through js using Webpack.
 | AUTOPREFIXER_BROWSER_LIST | last 2 versions | browsers versions that automatically gets properties specific to them (```-ms```, ```-moz```, ```-webkit```)                                                     | -                                                                                           |
 | IMAGE_ENCODER_GUETZLI     | false           | Uses Guetzli encoder for build in production mode.                                                                                                               | Uses MozJPEG encoder for build in production mode.                                          |
 | IMAGE_COMPRESSION_RATE    | 84              | Compression quality, in range 0 (worst) to 100 (perfect).                                                                                                        | -                                                                                           |
+
+<br />
+<br />
+<br />
+
+## :mag: Packages list
+<br/>
+
+**General** :
+- [gulp](https://github.com/gulpjs/gulp) - The streaming build system.
+   
+
+      Purpose : automated development process by running tasks.
+- [webpack](https://github.com/webpack/webpack) - is a bundler for javascript. Packs many modules into one or a few bundled assets.
+ 
+
+      Purpose : proper js bundling what gulp doesn't do.
+- [bootstrap](https://github.com/twbs/bootstrap) - is an open source framework for developing with HTML, CSS, and JS.
+ 
+
+      Purpose : responsive grid on web and mobile.
+- [jquery](https://github.com/jquery/jquery) - is a JavaScript library designed to simplify HTML DOM tree traversal and manipulation.
+ 
+
+      Purpose : for custom code and also for bootstrap dependency.
+- [popper.js](https://github.com/FezVrasta/popper.js/) - A popper is an element on the screen which "pops out" from the natural flow of your application.
+ 
+
+      Purpose : bootstrap dependency.
+- [gulp-google-webfonts](https://github.com/battlesnake/gulp-google-webfonts) - a plugin to download Google webfonts and generate a stylesheet for them.
+ 
+
+      Purpose : automate the process of using google webfonts just specifying them in one file(fonts.list).
+- [gulp-load-plugins](https://github.com/jackfranklin/gulp-load-plugins) - loads gulp plugins from package dependencies and attaches them to the specified object.
+ 
+
+      Purpose : imports google-webfonts when they are needed (alternative to "require" with lazy loading).
+- [gulp-if](https://github.com/robrich/gulp-if) - a ternary plugin: conditionally control the flow of vinyl objects.
+ 
+
+      Purpose : helps to run plugins according to development or production mode specified.
+- [gulp-plumber](https://github.com/floatdrop/gulp-plumber) - prevents pipe breaking caused by errors from gulp plugins.
+ 
+
+      Purpose : catch errors and send them to the node-notifier.
+- [gulplog](https://github.com/gulpjs/gulplog) - logger for gulp and gulp plugins
+   
+
+      Purpose : pass to webpack errorHandler and print info if errors occur. 
+- [node-notifier](https://github.com/mikaelbr/node-notifier) - a Node.js module for sending notifications on native Mac, Windows, and Linux.
+ 
+
+      Purpose : displays errors with platform-native notifications.
+- [gulp-pug](https://github.com/gulp-community/gulp-pug) - is a plugin for compiling Pug templates.
+ 
+
+      Purpose : translate pug files into html.
+- [through2](https://github.com/rvagg/through2) - is a tiny wrapper around Node.js streams. Allows writing gulp plugin.
+ 
+
+      Purpose : pass file name from stream to pug  for navigation based on location.
+- [gulp-sass](https://github.com/dlmanning/gulp-sass) - is a wrapper around node-sass.
+ 
+
+      Purpose : compiles .scss files into css.
+- [node-sass](https://github.com/sass/node-sass) - is a library that provides a binding for Node.js to LibSass.
+ 
+
+      Purpose : it's needed for gulp-sass.
+- [gulp-stylus](https://github.com/stylus/stylus/) - is a wrapper around stylus.
+ 
+
+      Purpose : compiles .styl files into css.
+- [stylus](https://github.com/stylus/stylus) - providing an efficient and dynamic way to generate CSS
+ 
+
+      Purpose : it's needed for gulp-stylus.
+- [merge2](https://github.com/teambition/merge2) - Merge multiple streams into one stream in sequence or parallel.
+ 
+
+      Purpose : for skipping Bootstrap and Google fonts from merging when they are disabled.
+- [gulp-inject](https://github.com/klei/gulp-inject) - ф javascript, stylesheet, and web component injection plugin.
+ 
+
+      Purpose : injects css and js files into html files by replacing  special tags specified in pug files.
+- [gulp-concat](https://github.com/gulp-community/gulp-concat) - Streaming concatenation middleware for gulp
+ 
+
+      Purpose : merge css files into one.
+- [stream-combiner2](https://github.com/substack/stream-combiner2) - Turn a pipeline into a single stream.
+ 
+
+      Purpose : less code for better readability.
+- [@babel/core](https://github.com/babel/babel/tree/master/packages/babel-core) - the core functionality of Babel. 
+ 
+
+      Purpose : babel-loader dependency.
+- [@babel/register](https://github.com/babel/babel/tree/master/packages/babel-register) - is a require hook, that will bind node’s require method and automatically transpile the file on the fly. 
+ 
+
+      Purpose : gulp.babel.js for es6 features.
+- [@babel/preset-env](https://github.com/babel/babel/tree/master/packages/babel-preset-env) - is a smart preset that allows you to use the latest JavaScript without needing to micromanage which syntax transforms (and optionally, browser polyfills) are needed by your target environment(s). This Needs for webpack babel-loader. 
+ 
+
+      Purpose : babel-loader configuration.
+- [babel-loader](https://github.com/babel/babel-loader) - Babel loader for webpack
+ 
+
+      Purpose : transforms Javascript code from new standards to previous for old browser support.
+- [babel-eslint](https://github.com/babel/babel-eslint) - a wrapper for Babel's parser used for ESLint
+ 
+
+      Purpose : custom parser specified in eslintrc.js
+- [eslint](https://github.com/eslint/eslint) - ESLint is an open source JavaScript linting utility.
+   
+
+      Purpose : static javascript code analysis using specified rules.
+- [eslint-config-airbnb-base](https://github.com/airbnb/javascript) - base(without react) AirBnb list of rules.
+ 
+
+      Purpose : just because of the most popular and nice javascript style guide
+- [eslint-plugin-import](https://github.com/benmosher/eslint-plugin-import) - ESLint plugin with rules that helps validate proper imports.
+   
+
+      Purpose : checks es6 imports.
+
+<br />
+
+**Production** :
+- [del](https://github.com/sindresorhus/del) - delete files and folders using globs
+ 
+
+      Purpose : deletes build dir before other tasks run.
+- [gulp-autoprefixer](https://github.com/sindresorhus/gulp-autoprefixer) - PostCSS plugin to parse CSS and add vendor prefixes to CSS rules using values from [Can I Use](https://caniuse.com/). 
+   
+
+      Purpose : automatically adds browser's specific prefixes like '-moz', '-webkit-', '-ms'.
+- [gulp-clean-css](https://github.com/scniro/gulp-clean-css) - clean-css is a fast and efficient CSS optimizer.
+ 
+
+      Purpose : minify css files.
+- [gulp-imagemin](https://github.com/sindresorhus/gulp-imagemin) - is an image compressor which is built around plugins like mozjpeg and others.
+ 
+
+      Purpose : minifies jpeg images with mozjpeg vs guetzli.
+- [imagemin-guetzli](https://github.com/imagemin/imagemin-guetzli) - imagemin plugin for [guetzli](https://github.com/google/guetzli).
+ 
+
+      Purpose : Guetzli-generated images are typically 20-30% smaller than others.
+- [imagemin-mozjpeg]() - Imagemin plugin for [mozjpeg](https://github.com/mozilla/mozjpeg)
+ 
+
+      Purpose : Mozjpeg-generated images are larger than Guetzli-generated but Mozjpeg is much faster. 
+- [gulp-rev](https://github.com/sindresorhus/gulp-rev) - appending content hash to filenames.
+ 
+
+      Purpose : helps to get rid of browser long term caching.
+- [gulp-rev-replace](https://github.com/jamesknelson/gulp-rev-replace) - rewrite occurrences of filenames which have been renamed by gulp-rev.
+ 
+
+      Purpose : replaces names in links to the images specified in html and css files from original to hashed using manifest file generated by gulp-rev.
+ 
+ <br />
+ 
+**Development** : 
+- [browser-sync](https://github.com/Browsersync/browser-sync) - keep multiple browsers & devices in sync.
+ 
+
+      Purpose : automatically reloads content on each saves on all connected devices and also catches all actions occurred in one of them and relays to others.
+- [gulp-sourcemaps](https://github.com/gulp-sourcemaps/gulp-sourcemaps) - provides sourcemap support for other plugins.
+ 
+
+      Purpose : may show original css code locations before merging into one css.
+- [gulp-cached](https://github.com/gulp-community/gulp-cached) - this keeps an in-memory cache of files (and their contents) that have passed through it.
+ 
+
+      Purpose : caches styles between incremental builds.
+- [gulp-remember](https://github.com/ahaurw01/gulp-remember) - is a plugin that remembers and recalls files passed through it.
+ 
+
+      Purpose : passes files to gulp-concat that were thrown back by gulp-cashed.
+- [gulp-newer](https://github.com/tschaub/gulp-newer) - a plugin for passing through only those source files that are newer than corresponding destination files.
+ 
+
+      Purpose : processes the same fonts and images only once between incremental builds.
+      
