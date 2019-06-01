@@ -24,3 +24,10 @@ overhed to translate all static assets and styles through js using Webpack.
 <br />
 <br />
 <br />
+
+## :link: Demo of projects using this boilerplate 
+<br/>
+
+- [Supreme site repo](https://github.com/noth8/supreme-site)
+- [Downhill site repo](https://github.com/noth8/downhill-site)
+- [Maxgold site repo](https://github.com/noth8/maxgold-site)
