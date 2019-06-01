@@ -145,3 +145,44 @@ overhed to translate all static assets and styles through js using Webpack.
     or
     - ```npm install --global gulp``` 
 
+<br />
+<br />
+<br />
+
+## :hammer: Installation
+<br/>
+
+1. Go to the directory where you want ```cd somedirectory```
+2. Clone this repo to your computer ```git clone https://github.com/noth8/gulp-webpack-boilerplate.git```
+3. Go to cloned repo ```cd gulp-webpack-boilerplate```
+4. Install all packages with ```yarn install``` or ```npm install```
+
+
+<br />
+<br />
+<br />
+
+## :red_circle: Launch
+
+<br/>
+
+###### Yarn Commands
+
+| name            | Description               |
+| --------------- | ------------------------- |
+| `yarn run dev`  | Build in development mode |
+| `yarn dev`      | Same as `yarn run dev`    |
+| `yarn run prod` | Build in production mode  |
+| `yarn prod`     | Same as `yarn run prod`   |
+
+###### Npm Commands 
+
+
+| name           | Description               |
+| -------------- | ------------------------- |
+| `npm run dev`  | Build in development mode |
+| `npm run prod` | Build in production mode  |
+
+<br/>
+
+###### _Look at 'Packages list' section for more information about used plugins in dev or prod mode._
