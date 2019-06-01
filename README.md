@@ -186,3 +186,19 @@ overhed to translate all static assets and styles through js using Webpack.
 <br/>
 
 ###### _Look at 'Packages list' section for more information about used plugins in dev or prod mode._
+
+<br />
+<br />
+<br />
+
+## :electric_plug: Config options in ```gulpfile.babel.js``` 
+<br/>
+
+| name                      | default         | true                                                                                                                                                             | false                                                                                       |
+| ------------------------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| GOOGLE_FONTS_ENABLED      | true            | Gulp downloads fonts listed in ```fonts.list``` and copies them to dist dir.                                                                                     | -                                                                                           |
+| BOOTSTRAP_ENABLED         | true            | Specify what you need in : ```bootstrap.js```,  ```bootstrap.scss```, ```_variables.scss``` and webpack will take it from bootstrap source and add it to bundle. | You can also use default bootstrap by specifying ```import 'bootstrap'``` in ```entry.js``` |
+| BOOTSTRAP_CUSTOM_SOURCE   | true            | Give you a copy of bootstrap source if you want to make some changes directly.                                                                                   | Using bootstrap from `node_modules/`                                                        |
+| AUTOPREFIXER_BROWSER_LIST | last 2 versions | browsers versions that automatically gets properties specific to them (```-ms```, ```-moz```, ```-webkit```)                                                     | -                                                                                           |
+| IMAGE_ENCODER_GUETZLI     | false           | Uses Guetzli encoder for build in production mode.                                                                                                               | Uses MozJPEG encoder for build in production mode.                                          |
+| IMAGE_COMPRESSION_RATE    | 84              | Compression quality, in range 0 (worst) to 100 (perfect).                                                                                                        | -                                                                                           |
